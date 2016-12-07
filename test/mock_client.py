@@ -60,7 +60,8 @@ if  __name__ == '__main__':
 			result = client.generatePoem('title', ['tag', 'tag'], ['description', 'description'])
 			print 'generatePoem result ', result
 
-			result = client.searchCreativeTexts(['tag', 'tag'], ['description', 'description'])
+			result = client.searchCreativeTexts(['fight', 'message'], ['game fantastic', 'just fun'])
+	#		result = client.searchCreativeTexts(['tag1', 'tag2'], ['no description', 'description is'])
 			print 'searchCreativeTexts result ', result
 		except Exception as e:
 			logger.exception(e)

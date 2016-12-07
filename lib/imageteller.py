@@ -65,7 +65,7 @@ if  __name__ == '__main__':
 		pfactory = TBinaryProtocol.TBinaryProtocolFactory()
 		server = TServer.TThreadPoolServer(processor, transport, tfactory, pfactory, daemon=True)
 
-		logger.info('poem service start')
+		logger.info('imageteller service start')
 		server.serve()
 	except Exception as e:
 		logger.exception(e)
