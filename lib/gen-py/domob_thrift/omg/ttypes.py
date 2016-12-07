@@ -7,6 +7,7 @@
 
 from thrift.Thrift import *
 import domob_thrift.omg_types.ttypes
+import domob_thrift.omg_common.ttypes
 
 
 from thrift.transport import TTransport

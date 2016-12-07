@@ -55,7 +55,13 @@ if  __name__ == '__main__':
 		try:
 			print 'client call'
 			result = client.test(123)
-			print 'result ', result
+			print 'test result ', result
+
+			result = client.generatePoem('title', ['tag', 'tag'], ['description', 'description'])
+			print 'generatePoem result ', result
+
+			result = client.searchCreativeTexts(['tag', 'tag'], ['description', 'description'])
+			print 'searchCreativeTexts result ', result
 		except Exception as e:
 			logger.exception(e)
 		finally:

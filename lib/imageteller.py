@@ -2,7 +2,7 @@
 #-*- coding: utf-8 -*-
 # vim: set bg=dark noet sw=4 ts=4 fdm=indent : 
 
-"""Poem Server """
+"""Image Teller """
 __author__='chutong'
 
 import os
@@ -16,11 +16,6 @@ try:
 	import ConfigParser
 except ImportError:
 	import configparser as ConfigParser
-from domob_thrift.omg_types.ttypes import *
-from domob_thrift.omg_types.constants import *
-from domob_thrift.omg.ttypes import *
-from domob_thrift.omg.constants import *
-from domob_thrift.omg import OmgService
 
 from thrift import Thrift
 from thrift.transport import TSocket
@@ -28,20 +23,7 @@ from thrift.transport import TTransport
 from thrift.protocol import TBinaryProtocol
 from thrift.server import TServer
 
-
-
-class OmgServer(object):
-	""" Omg Server"""
-	def __init__(self, conf):
-		pass
-
-	def test(self, id):
-		t = Test()
-		t.id = id
-		t.name = "test"
-		print 'server serve ', t.id, t.name
-		return t
-
+from domob_thrift.omg import OmgService
 
 if  __name__ == '__main__':
 	'''
@@ -75,6 +57,7 @@ if  __name__ == '__main__':
 	try:
 		port = cfg.get('db', 'port')
 
+		from omg_server import OmgServer
 		omg_server = OmgServer(cfg)
 		processor = OmgService.Processor(omg_server)
 		transport = TSocket.TServerSocket(port=port)
