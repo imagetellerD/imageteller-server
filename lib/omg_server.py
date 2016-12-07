@@ -18,7 +18,7 @@ class OmgServer(object):
 	""" Omg Server"""
 	def __init__(self, conf):
 		self.logger = logging.getLogger("omg.server")
-		self.helper = OmgHelper()
+		self.helper = OmgHelper(conf)
 
 	def test(self, id):
 		t = Test()
