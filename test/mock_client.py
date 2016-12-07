@@ -2,11 +2,15 @@
 #-*- coding: utf-8 -*-
 # vim: set bg=dark noet sw=4 ts=4 fdm=indent : 
 
-"""Poem Server """
+"""Poem Mock Client"""
 __author__='chutong'
 
 import os
 import sys
+basepath = os.path.realpath(os.path.dirname(os.path.realpath(__file__)) + '/../')
+sys.path.append(basepath + '/lib')
+sys.path.append(basepath + '/lib/gen-py')
+
 import logging
 try:
 	import ConfigParser
@@ -25,42 +29,37 @@ from thrift.protocol import TBinaryProtocol
 from thrift.server import TServer
 
 
-class OmgServer(object):
-	""" Omg Server"""
-	def __init__(self, conf):
-		pass
-
-	def test(self, id):
-		t = Test()
-		t.id = id
-		t.name = "test"
-		print 'server serve ', t.id, t.name
-		return t
-
-
 if  __name__ == '__main__':
 
-	basepath = os.path.abspath(os.getcwd())
-	confpath = os.path.join(basepath, 'conf/poem.conf')
+	filedir = os.path.dirname(__file__)
+	if filedir == '':
+		filedir = '.'
+	basepath = filedir+'/../'
+	confpath = os.path.join(basepath, 'conf/imageteller.conf')
 	conf = ConfigParser.RawConfigParser()
 	conf.read(confpath)
-	logging.basicConfig(filename=os.path.join(basepath, 'logs/poem_service.log'), level=logging.DEBUG,
+	logging.basicConfig(filename=os.path.join(basepath, 'logs/poem_client.log'), level=logging.DEBUG,
 		format = '[%(filename)s:%(lineno)s - %(funcName)s %(asctime)s;%(levelname)s] %(message)s',
 		datefmt = '%Y-%m-%d %H:%M:%S')
 
-	logger = logging.getLogger("PoemServer")
+	logger = logging.getLogger("PoemClient")
 	try:
 		host = conf.get('db', 'host')
 		port = conf.get('db', 'port')
 
-		omg_server = OmgServer(conf)
-		processor = OmgService.Processor(omg_server)
-		transport = TSocket.TServerSocket(host, port)
-		tfactory = TTransport.TFramedTransportFactory()
-		pfactory = TBinaryProtocol.TBinaryProtocolFactory()
-		server = TServer.TThreadPoolServer(processor, transport, tfactory, pfactory, daemon=True)
+		transport = TSocket.TSocket(host, port)
+		transport = TTransport.TFramedTransport(transport)
+		protocol = TBinaryProtocol.TBinaryProtocol(transport)
+		client = OmgService.Client(protocol) 
+		transport.open()
+		try:
+			print 'client call'
+			result = client.test(123)
+			print 'result ', result
+		except Exception as e:
+			logger.exception(e)
+		finally:
+			transport.close()
 
-		logger.info('poem service start')
-		server.serve()
 	except Exception as e:
 		logger.exception(e)
