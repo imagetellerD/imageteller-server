@@ -58,8 +58,8 @@ if  __name__ == '__main__':
 		transport = TSocket.TServerSocket(host, port)
 		tfactory = TTransport.TFramedTransportFactory()
 		pfactory = TBinaryProtocol.TBinaryProtocolFactory()
-		server = TServer.TThreadPoolServer(processor, transport, tfactory, pfactory)
-		
+		server = TServer.TThreadPoolServer(processor, transport, tfactory, pfactory, daemon=True)
+
 		logger.info('poem service start')
 		server.serve()
 	except Exception as e:
