@@ -36,7 +36,6 @@ class OmgHelper(object):
 	def searchCreativeTexts(self, tags, descriptions):
 		self.logger.info('searchCreativeTexts works')
 
-		# TODO 连接池
 		esClient = Elasticsearch(hosts=self.es_hosts.strip().split(","))
 
 		descriptionstr = str()
