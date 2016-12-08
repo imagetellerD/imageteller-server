@@ -13,12 +13,14 @@ from domob_thrift.omg.constants import *
 from domob_thrift.omg_common.ttypes import *
 
 from omg_helper import OmgHelper
+from omg_poem import OmgPoemGenerator
 
 class OmgServer(object):
 	""" Omg Server"""
 	def __init__(self, conf):
 		self.logger = logging.getLogger("omg.server")
 		self.helper = OmgHelper(conf)
+		self.poem_generator = OmgPoemGenerator(conf)
 
 	def test(self, id):
 		t = Test()
@@ -30,7 +32,7 @@ class OmgServer(object):
 	def generatePoem(self, title, tags, description):
 		try:
 			self.logger.info('generatePoem works')
-			return "OK"
+			return self.poem_generator.generatePoem(title, tags, description)
 		except Exception, e:
 			raise OmgException(code=OmgServiceCode.ERROR_SYSTEM_ERROR, message="%s"%e)
 
