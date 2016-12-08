@@ -12,9 +12,6 @@ from domob_thrift.omg.ttypes import *
 from domob_thrift.omg.constants import *
 from domob_thrift.omg_common.ttypes import *
 
-import sys
-sys.path.append("/home/zeus/lizhengxu/hack/python-lib/lib/python2.7/site-packages")
-
 from elasticsearch import Elasticsearch
 from elasticsearch.exceptions import NotFoundError
 from elasticsearch.client import IndicesClient
