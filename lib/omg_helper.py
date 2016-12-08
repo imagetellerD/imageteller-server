@@ -11,6 +11,7 @@ from domob_thrift.omg_types.constants import *
 from domob_thrift.omg.ttypes import *
 from domob_thrift.omg.constants import *
 from domob_thrift.omg_common.ttypes import *
+from microsoft_api import MicrosoftApi
 
 import sys
 sys.path.append("/home/zeus/lizhengxu/hack/python-lib/lib/python2.7/site-packages")
@@ -35,6 +36,34 @@ class OmgHelper(object):
 		self.es_size = self.cfg.getint('elasticsearch', 'size')
 		self.es_tag_weight = self.cfg.getint('elasticsearch', 'tag.weight')
 		self.es_minimum_should_match = self.cfg.getint('elasticsearch', 'minimum.should.match')
+
+	def analyzeImage(self, data_type, image_data, language):
+		self.logger.info('begin to analyze image...');
+		analystResult = ImageAnalyzeResult()
+		analystResult.tags = []
+		analystResult.descriptions = []
+		microsoftApi = MicrosoftApi(self.cfg)
+		if language == ImageAnalyzeLanguage.IAL_CN:
+			language = 'zh'
+		else:
+			language = 'en'
+
+		if data_type == ImageDataType.IDT_URL:
+			data = microsoftApi.analyzeImageThroughUrl(image_data.image_url, language)
+			#print data
+			if data and data['tags']:
+				for tag in data['tags']:
+					_tag = ImageTag()
+					_tag.tag = tag['name'].encode('utf-8')
+					_tag.confidence = int(tag['confidence'] * 100)
+					analystResult.tags.append(_tag)
+				for desc in data['description']:
+					analystResult.descriptions.append(desc.encode('utf-8'))
+			#cloudsight todo
+		#else :
+			#pass
+		return analystResult
+		
 
 	def searchCreativeTexts(self, tags, descriptions):
 		self.logger.info('searchCreativeTexts works')

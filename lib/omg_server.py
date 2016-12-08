@@ -39,4 +39,10 @@ class OmgServer(object):
 			return self.helper.searchCreativeTexts(tags, description)
 		except Exception, e:
 			raise OmgException(code=OmgServiceCode.ERROR_SYSTEM_ERROR, message="%s"%e)
-			
+	
+	def analyzeImage(self, data_type, image_data, language):
+		try:
+			return self.helper.analyzeImage(data_type, image_data, language)
+		except Exception, e:
+			raise OmgException(code=OmgServiceCode.ERROR_SYSTEM_ERROR, message="%s"%e)
+

@@ -49,7 +49,10 @@ if  __name__ == '__main__':
 	logConfFile = args.executeDir+'/conf/logging.conf'
 	logging.config.fileConfig(logConfFile)
 
-	cfgfile = args.executeDir + '/conf/imageteller.conf'
+	cfgfile = args.executeDir + '/conf/imageteller.conf.user'
+	if os.path.exists(cfgfile) == False:
+		cfgfile = args.executeDir + '/conf/imageteller.conf'
+		
 	cfg = ConfigParser.RawConfigParser()
 	cfg.read(cfgfile)
 
