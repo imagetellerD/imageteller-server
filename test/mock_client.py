@@ -65,10 +65,10 @@ if  __name__ == '__main__':
 				tag.tag = "菊花"
 				tag.confidence = 0.9
 				tags.append(tag)
-				
+			
 			result = client.generatePoem("浣溪沙", tags, ['description', 'description'])
 			print 'generatePoem result ', result
-
+			
 			result = client.searchCreativeTexts(['fight', 'message'], ['game fantastic', 'just fun'])
 	#		result = client.searchCreativeTexts(['tag1', 'tag2'], ['no description', 'description is'])
 			print 'searchCreativeTexts result ', result

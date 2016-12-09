@@ -110,7 +110,11 @@ class OmgHelper(object):
 			)
 
 		creativeTexts = list()
-		for i in range(response["hits"]["total"]):
+		for i in range(len(response["hits"]["hits"])):
 			creativeTexts.append(response["hits"]["hits"][i]["_source"]["mesg"])
 
-		return creativeTexts
+		# 虽然笨，但因为创意文案包含很多特殊字符，不这么转码，thrift传输会出错
+		retTexts = list()
+		for index in range(len(creativeTexts)):
+			retTexts.append(creativeTexts[index].encode("utf-8"))
+		return retTexts
