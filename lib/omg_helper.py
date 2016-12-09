@@ -95,7 +95,7 @@ class OmgHelper(object):
 
 		# 查询 es 获取结果
 		response = esClient.search(
-			index=self.es_index,
+			index=self.es_index, doc_type=self.es_type,
 			body={
 				"query": {
 					"multi_match": {
@@ -106,7 +106,8 @@ class OmgHelper(object):
 					}
 				}
 			},
-			analyzer=self.es_analyzer, size=self.es_size
+			analyzer=self.es_analyzer, size=self.es_size,
+			timeout=self.es_timeout
 			)
 
 		creativeTexts = list()
