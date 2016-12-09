@@ -29,12 +29,21 @@ class OmgPoemGenerator(object):
 
 	def generatePoem(self, title, tags, descriptions):
 		logger = logging.getLogger('omg.poem')
+		logger.info("generate poem begins")
 
 		generator = Generator(basepath, self.conf)
 		try:
 			# As user input, for theme of poem, and title
-			user_input_dict = dict(title=u"浣溪沙", important_words=[u"菊花", u"院子"], force_data_build=False)
-			#user_input_dict = dict(title=title, important_words=tags, descriptions=descriptions, force_data_build=False)
+			#user_input_dict = dict(title=u"浣溪沙", important_words=[u"菊花", u"院子"], force_data_build=False)
+
+			# str to unicode
+			title = title.decode()
+			important_words = []
+			for tag in tags:
+				important_words.append(tag.tag.decode())
+
+			logger.info("user input title %s, important_words %s, descriptions %s" % (title, str(important_words), str(descriptions)))
+			user_input_dict = dict(title=title, important_words=important_words, descriptions=descriptions, force_data_build=False)
 
 			# Init
 			generator.force_data_build = user_input_dict["force_data_build"]

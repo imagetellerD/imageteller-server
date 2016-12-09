@@ -7,6 +7,8 @@ __author__='chutong'
 
 import os
 import sys
+reload(sys)
+sys.setdefaultencoding("utf8")
 basepath = os.path.realpath(os.path.dirname(os.path.realpath(__file__)) + '/../')
 sys.path.append(basepath + '/lib')
 sys.path.append(basepath + '/lib/gen-py')
@@ -57,7 +59,14 @@ if  __name__ == '__main__':
 			result = client.test(123)
 			print 'test result ', result
 
-			result = client.generatePoem('title', ['tag', 'tag'], ['description', 'description'])
+			tags = []
+			for i in range(2):
+				tag = ImageTag()
+				tag.tag = "菊花"
+				tag.confidence = 0.9
+				tags.append(tag)
+				
+			result = client.generatePoem("浣溪沙", tags, ['description', 'description'])
 			print 'generatePoem result ', result
 
 			result = client.searchCreativeTexts(['fight', 'message'], ['game fantastic', 'just fun'])

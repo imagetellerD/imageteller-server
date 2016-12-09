@@ -30,8 +30,8 @@ class OmgServer(object):
 		return t
 
 	def generatePoem(self, title, tags, description):
+		self.logger.info('generatePoem works')
 		try:
-			self.logger.info('generatePoem works')
 			return self.poem_generator.generatePoem(title, tags, description)
 		except Exception, e:
 			raise OmgException(code=OmgServiceCode.ERROR_SYSTEM_ERROR, message="%s"%e)

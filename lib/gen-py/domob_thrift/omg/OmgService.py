@@ -411,7 +411,7 @@ class generatePoem_args(object):
   thrift_spec = (
     None, # 0
     (1, TType.STRING, 'title', None, None, ), # 1
-    (2, TType.LIST, 'tags', (TType.STRING,None), None, ), # 2
+    (2, TType.LIST, 'tags', (TType.STRUCT,(domob_thrift.omg_types.ttypes.ImageTag, domob_thrift.omg_types.ttypes.ImageTag.thrift_spec)), None, ), # 2
     (3, TType.LIST, 'description', (TType.STRING,None), None, ), # 3
   )
 
@@ -439,7 +439,8 @@ class generatePoem_args(object):
           self.tags = []
           (_etype3, _size0) = iprot.readListBegin()
           for _i4 in xrange(_size0):
-            _elem5 = iprot.readString();
+            _elem5 = domob_thrift.omg_types.ttypes.ImageTag()
+            _elem5.read(iprot)
             self.tags.append(_elem5)
           iprot.readListEnd()
         else:
@@ -470,9 +471,9 @@ class generatePoem_args(object):
       oprot.writeFieldEnd()
     if self.tags != None:
       oprot.writeFieldBegin('tags', TType.LIST, 2)
-      oprot.writeListBegin(TType.STRING, len(self.tags))
+      oprot.writeListBegin(TType.STRUCT, len(self.tags))
       for iter12 in self.tags:
-        oprot.writeString(iter12)
+        iter12.write(oprot)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
     if self.description != None:
