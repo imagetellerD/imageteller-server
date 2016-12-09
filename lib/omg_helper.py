@@ -48,7 +48,8 @@ class OmgHelper(object):
 		if data_type == ImageDataType.IDT_URL:
 			data = microsoftApi.analyzeImageThroughUrl(image_data.image_url, language)
 			#print data
-			if data and data['tags']:
+			if data and (data.has_key('tags') or data.has_key('description')):
+				self.logger.info('get analyze image data success');
 				for tag in data['tags']:
 					_tag = ImageTag()
 					_tag.tag = tag['name'].encode('utf-8')
@@ -56,9 +57,12 @@ class OmgHelper(object):
 					analystResult.tags.append(_tag)
 				for desc in data['description']:
 					analystResult.descriptions.append(desc.encode('utf-8'))
+			else:
+				self.logger.info('get analyze image data failed');
 			#cloudsight todo
 		#else :
 			#pass
+		self.logger.info('analyze image over...');
 		return analystResult
 		
 

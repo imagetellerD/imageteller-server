@@ -18,8 +18,10 @@ class MicrosoftApi(object):
 		
 		self.logger = logging.getLogger("omg.microsoft_api")
 		
-		self.api_domain = 'api.cognitive.azure.cn'
-		self.api_path = '/vision/v1.0/analyze'
+		#self.api_domain = 'api.cognitive.azure.cn'
+		#self.api_path = '/vision/v1.0/analyze'
+		self.api_domain = self.cfg.get('image_analyze_api', 'microsoft_domain') 
+		self.api_path = self.cfg.get('image_analyze_api', 'microsoft_api_path') 
 		self.api_token = self.cfg.get('image_analyze_api', 'microsoft_api_key')	
 
 	def request(self, header_content_type, body, language):
@@ -33,6 +35,7 @@ class MicrosoftApi(object):
 			'language': language,
 		})
 		data = None
+		#self.logger.info("%s\n%s?%s" % (self.api_domain, self.api_path, params))
 		try :
 			conn = httplib.HTTPSConnection(self.api_domain)
 			conn.request("POST", "%s?%s" % (self.api_path, params), body, headers)
