@@ -18,8 +18,6 @@ class MicrosoftApi(object):
 		
 		self.logger = logging.getLogger("omg.microsoft_api")
 		
-		#self.api_domain = 'api.cognitive.azure.cn'
-		#self.api_path = '/vision/v1.0/analyze'
 		self.api_domain = self.cfg.get('image_analyze_api', 'microsoft_domain') 
 		self.api_path = self.cfg.get('image_analyze_api', 'microsoft_api_path') 
 		self.api_token = self.cfg.get('image_analyze_api', 'microsoft_api_key')	
@@ -42,31 +40,31 @@ class MicrosoftApi(object):
 			response = conn.getresponse()
 			if response.status == 200:
 				data = json.loads(response.read())
+				if data.has_key('description') and data['description'].has_key('tags'):
+					for tag in data['description']['tags']:
+						data['tags'].append({'name': tag, 'confidence': 0.75})
 				descriptions = []
 				if data.has_key('description') and data['description'].has_key('captions'):
 					for desc in data['description']['captions']:
 						if desc.has_key('text'):
 							descriptions.append(desc['text'])
-				data['description'] = descriptions
+				#data['description'] = descriptions
 				#print data['description']
 					
 			else:
 				#print response.read()
 				self.logger.warning('call microsoft api failed, code: %s, response: %s' % (response.status, response.read()))
 		except Exception, e:
-			#print e
 			self.logger.warning('call  microsoft api failed, exception: %s' % e)
 		return data
 
 	def analyzeImageThroughUrl(self, image_url, language):
-		#data = self.request('application/json', json.dumps({'url':image_url}))
-		if language == 'zh':
-			language = 'zh'
-		else:
+		if language != 'zh':
 			language = 'en'
 		return self.request('application/json', json.dumps({'url':image_url}), language)
 
-	def analyzeImageThroughFilename(self, image_url):
+	def analyzeImageThroughFilename(self, filename):
+		#todo
 		return None
 		
 	
