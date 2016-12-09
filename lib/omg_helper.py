@@ -106,8 +106,7 @@ class OmgHelper(object):
 					}
 				}
 			},
-			analyzer=self.es_analyzer, size=self.es_size,
-			timeout=self.es_timeout
+			analyzer=self.es_analyzer, size=self.es_size
 			)
 
 		creativeTexts = list()
