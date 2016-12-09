@@ -67,4 +67,4 @@ class OmgPoemGenerator(object):
 			logger.exception(e)
 		finally:
 			#return "何处有新词,故人生贤梦中秋,趁不梅花云深处,西楼,一春归西江东风;记得酒朋俦,今当年年江东风,十分归来无人去,枝头,江东西风江东流"
-			return result
+			return result.encode()
