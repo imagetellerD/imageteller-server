@@ -12,6 +12,7 @@ sys.setdefaultencoding("utf8")
 sys.path.append("/home/chutong/.local/lib/python2.7/site-packages")
 
 import logging
+import random
 from domob_thrift.omg_types.ttypes import *
 from domob_thrift.omg_types.constants import *
 from domob_thrift.omg.ttypes import *
@@ -46,6 +47,7 @@ class OmgPoemGenerator(object):
 			user_input_dict = dict(title=title, important_words=important_words, descriptions=descriptions, force_data_build=False)
 
 			# Init
+			generator.search_ratio = random.random() * 0.8
 			generator.force_data_build = user_input_dict["force_data_build"]
 			generator.init(logger)
 
